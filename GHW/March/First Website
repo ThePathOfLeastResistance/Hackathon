@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>About Me</title>
+    <style>
+      img {
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="images/Untitled design.png" alt = "Image of Me" />
+    <p>James C</p>
+    <p>I like math and fishing</p>
+  </body>
+</html>
