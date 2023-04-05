@@ -1,26 +1,29 @@
+
+
 import requests
+import datetime
+import os
+date_time = datetime.date.today()
+Now = date_time.strftime("%Y-%m-%d")
+yesterday = (date_time - datetime.timedelta(days = 1)).strftime("%Y-%m-%d")
 
 
-Endpoint = "https://pro-api.coingecko.com/api/v3/"
-trends = "https://api.coingecko.com/api/v3/search/trending"
+Api = os.environ["api"]
+Endpoint = f"https://api.nasa.gov/neo/rest/v1/feed?start_date={Now}&end_date={yesterday}&api_key={Api}"
 
-Breakdown = []
 
-crytrends = requests.get(trends)
-coins = crytrends.json()["coins"]
+response = requests.get(Endpoint)
+response.raise_for_status()
 
-for i in coins:
-    symbol = i['item']['symbol']
-    Name = i['item']['name']
-    id = i['item']['id']
-    paras = {
-            "ids":id,
-            "vs_currencies": "usd",
-            "include_market_cap": "true",
-        }
-    Money = requests.get(url = "https://api.coingecko.com/api/v3/simple/price", params=paras)
-    price = Money.json()[id]["usd"]
-    Breakdown.append(f"{Name}:${price}")
+Date = date_time.strftime("%Y-%m-%d")
+list = response.json()["near_earth_objects"][Now]
 
-print(f"This is the Price of the top 7 Cryptocurrency : {Breakdown}")
+num = 0
+Bad = 0
 
+for i in list:
+    num += 1
+    if i["is_potentially_hazardous_asteroid"] == "True":
+        Bad += 1
+
+print(f"Hello, today there was {num} number of asteroids that was close to earth and {Bad} of them where potentially hazardous ")
